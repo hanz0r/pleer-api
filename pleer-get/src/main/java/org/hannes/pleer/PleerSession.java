@@ -78,6 +78,7 @@ public class PleerSession {
 			/*
 			 * Create the default header
 			 */
+			System.out.println("creating header");
 			List<NameValuePair> header = new ArrayList<>();
 			header.add(new BasicNameValuePair("Accept", "*/*"));
 			header.add(new BasicNameValuePair("Cache-Control", "no-cache"));
@@ -87,6 +88,7 @@ public class PleerSession {
 			/*
 			 * Add the access token if it is not null
 			 */
+			System.out.println("add access token");
 			if (token != null) {
 				header.add(new BasicNameValuePair("access_token", token.getAccessToken()));
 			}
@@ -94,16 +96,19 @@ public class PleerSession {
 			/*
 			 * Fill in the header with the request's specific arguments
 			 */
+			System.out.println("let request create the header");
 			http_request.setEntity(new UrlEncodedFormEntity(request.createHeader(header)));
 			
 			/*
 			 * Send the request to the client
 			 */
+			System.out.println("execute http request");
 			HttpResponse response = client.execute(http_request);
 			
 			/*
 			 * Parse the JSON response into the request's enclosing type
 			 */
+			System.out.println("read json");
 			String json = read(response.getEntity());
 			System.out.println(json);
 			return gson.fromJson(json, request.getEnclosingType());

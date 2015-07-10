@@ -2,6 +2,7 @@ package org.hannes.pleer.beans;
 
 import java.util.Map;
 
+
 public class QueryBean {
 
 	/**
@@ -36,6 +37,7 @@ public class QueryBean {
 	}
 
 	public Map<Integer, TrackBean> getTracks() {
+		System.out.println(tracks.getClass());
 		return tracks;
 	}
 
