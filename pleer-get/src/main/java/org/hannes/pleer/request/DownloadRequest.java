@@ -1,13 +1,12 @@
-package org.hannes.pleer;
+package org.hannes.pleer.request;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicNameValuePair;
+import org.hannes.pleer.Request;
 import org.hannes.pleer.beans.DownloadBean;
 
 /**
@@ -17,7 +16,10 @@ import org.hannes.pleer.beans.DownloadBean;
  */
 public class DownloadRequest implements Request<DownloadBean> {
 
-	private static final String GET_URL = "http://pleer.com/site_api/files/get_url";
+	/**
+	 * The URL to the method for the API
+	 */
+	private static final String GET_URL = "http://api.pleer.com/index.php";
 
 	/**
 	 * The id of the song
@@ -36,18 +38,20 @@ public class DownloadRequest implements Request<DownloadBean> {
 	}
 
 	@Override
-	public HttpUriRequest create() throws Exception {
-		HttpPost request = new HttpPost(GET_URL);
-		List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-		nvps.add(new BasicNameValuePair("id", song_id));
-		nvps.add(new BasicNameValuePair("action", "play"));
-		request.setEntity(new UrlEncodedFormEntity(nvps));
-		return request;
+	public HttpEntityEnclosingRequestBase create() throws Exception {
+		return new HttpPost(GET_URL);
 	}
 
 	@Override
 	public Class<DownloadBean> getEnclosingType() {
 		return DownloadBean.class;
+	}
+
+	@Override
+	public List<NameValuePair> createHeader(List<NameValuePair> list) throws Exception {
+		list.add(new BasicNameValuePair("method", "tracks_get_download_link"));
+		list.add(new BasicNameValuePair("track_id", song_id));
+		return list;
 	}
 
 }

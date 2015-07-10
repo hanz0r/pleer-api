@@ -1,6 +1,9 @@
 package org.hannes.pleer;
 
-import org.apache.http.client.methods.HttpUriRequest;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 
 public interface Request<T> {
 
@@ -10,7 +13,15 @@ public interface Request<T> {
 	 * @return
 	 * @throws PleerException
 	 */
-	public abstract HttpUriRequest create() throws Exception;
+	public abstract HttpEntityEnclosingRequestBase create() throws Exception;
+
+	/**
+	 * Fills in the header information
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract List<NameValuePair> createHeader(List<NameValuePair> list) throws Exception;
 
 	/**
 	 * Get the enclosing type
